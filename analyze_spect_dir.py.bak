@@ -25,29 +25,29 @@ def false_alarm_tst(fdir=None, mdir=None, ftype=None):
 
     cclass = cc.init_net(model_dir=mdir)
 
-    for i in range(len(onlyfiles)):
+    for i in xrange(len(onlyfiles)):
         if(onlyfiles[i].split('.')[-1].lower() == ftype.lower()):
             pngfiles.append(onlyfiles[i])
 
-    print('Processing ' + str(len(pngfiles)) + ' files from ' + mypath)
+    print 'Processing ' + str(len(pngfiles)) + ' files from ' + mypath
     prob = np.zeros((len(pngfiles), 2))
     fa = 0
     N = len(pngfiles)
     plt.ion()
 
-    for i in range(N):
+    for i in xrange(N):
         prob[i, :] = cc.net_process(cclass, join(mypath, pngfiles[i]), 0)
 
         # all files should be negatives, check which ones are not
         if(prob[i, 0] < prob[i, 1]):  # class 0 is neg, class 1 is pos
             fa = fa + 1
-            print('File ' + pngfiles[i] + ' triggered,  neg=' + str(np.round(10 * prob[i, 0]) / 10) + ', pos=' + str(np.round(10 * prob[i, 1]) / 10) + ', False alarm rate: ' + str(fa) + '/' + str(N))
+            print 'File ' + pngfiles[i] + ' triggered,  neg=' + str(np.round(10 * prob[i, 0]) / 10) + ', pos=' + str(np.round(10 * prob[i, 1]) / 10) + ', False alarm rate: ' + str(fa) + '/' + str(N)
 #            plt.figure()
 #            img = cv2.imread(join(mypath,pngfiles[i]))
 #            plt.imshow(img)
 #            plt.title(pngfiles[i])
 
-    print('Final PFA: ' + str(fa * 1.0 / N * 100) + '%')
+    print 'Final PFA: ' + str(fa * 1.0 / N * 100) + '%'
 
 
 def detection_tst(fdir=None, mdir=None, ftype=None):
@@ -69,23 +69,23 @@ def detection_tst(fdir=None, mdir=None, ftype=None):
 
     cclass = cc.init_net(model_dir=mdir)
 
-    for i in range(len(onlyfiles)):
+    for i in xrange(len(onlyfiles)):
         if(onlyfiles[i].split('.')[-1].lower() == ftype.lower()):
             pngfiles.append(onlyfiles[i])
 
-    print('Processing ' + str(len(pngfiles)) + ' files from ' + mypath)
+    print 'Processing ' + str(len(pngfiles)) + ' files from ' + mypath
     prob = np.zeros((len(pngfiles), 2))
     miss = 0
     N = len(pngfiles)
     plt.ion()
 
-    for i in range(N):
+    for i in xrange(N):
         prob[i, :] = cc.net_process(cclass, join(mypath, pngfiles[i]), True)
 
         # all files should be positives, check which ones are not
         if(prob[i, 0] > prob[i, 1]):  # class 0 is neg, class 1 is pos
             miss = miss + 1
-            print('File ' + pngfiles[i] + ' triggered,  neg=' + str(np.round(10 * prob[i, 0]) / 10) + ', pos=' + str(np.round(10 * prob[i, 1]) / 10) + ', Miss rate: ' + str(miss) + '/' + str(N))
+            print 'File ' + pngfiles[i] + ' triggered,  neg=' + str(np.round(10 * prob[i, 0]) / 10) + ', pos=' + str(np.round(10 * prob[i, 1]) / 10) + ', Miss rate: ' + str(miss) + '/' + str(N)
 #            plt.figure()
 #            img = cv2.imread(join(mypath,pngfiles[i]))
 #            plt.imshow(img)
@@ -93,4 +93,4 @@ def detection_tst(fdir=None, mdir=None, ftype=None):
 
     pmiss = miss * 1.0 / N
 
-    print('Final PD: ' + str((1 - pmiss) * 100) + '%, Pmiss: ' + str(pmiss * 100) + '%')
+    print 'Final PD: ' + str((1 - pmiss) * 100) + '%, Pmiss: ' + str(pmiss * 100) + '%'

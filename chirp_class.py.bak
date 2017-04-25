@@ -19,10 +19,10 @@ def init_net(model_dir=None, gpu_id=None):
         gpu_id = 0
 
     if(gpu_id > 1):
-        print('GPU id out of bounds, set to 0')
+        print 'GPU id out of bounds, set to 0'
         gpu_id = 0
 
-    print('GPU id used: ', gpu_id)
+    print 'GPU id used: ', gpu_id
 
     if(model_dir is None):
         # these are hardcoded for now
@@ -41,7 +41,7 @@ def init_net(model_dir=None, gpu_id=None):
     onlyfiles = [f for f in listdir(model_dir) if isfile(join(model_dir, f))]
 
     fname = ''
-    for i in range(len(onlyfiles)):
+    for i in xrange(len(onlyfiles)):
         if(onlyfiles[i].split('.')[1].lower() == 'caffemodel'):
             fname = onlyfiles[i]
             break
@@ -63,7 +63,7 @@ def init_net(model_dir=None, gpu_id=None):
                                   image_dims=image_dims, mean=mean,
                                   input_scale=input_scale, raw_scale=raw_scale)
 
-    print('Network load from ' + fname)
+    print 'Network load from ' + fname
     return(classifier)
 
 
